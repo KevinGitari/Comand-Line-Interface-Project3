@@ -52,7 +52,7 @@ The application uses SQLite for storing contendors data and quiz scores. The dat
 ### My Code Structure
 - **`cli.py`**: Main entry point for the command-line interface.
 - **`math.py`**: Contains the quiz logic and calculations.
-- **`models.py`**: Defines the database models (User and Quiz).
+- **`contenders.py`**: Defines the database models (User and Quiz).
 - **`database.py`**: Handles database connections and table_creation.
 
 ### License
