@@ -1,9 +1,11 @@
-import random
-from unittest import result
+import random # this will import the random module
+import operator # this will import the operator module
+from unittest import result# this will import the result module
+import time # this will import the time module
 
-# The Python Operators I will be uising
+# The Python Operators I will be using
 
-OPERATORS = ["+", "-", "*", "//"]
+OPERATORS = ["+", "-", "*", "//" ,"/",]
 MAX_OPERAND = 81
 MIN_OPERAND = 9
 NUM_QUESTIONS = 55
@@ -22,7 +24,16 @@ def calculations():
     print(expressions, "=", result)# this will print the expression and the result
     return expressions
 
+wrong_answer = 0# this will keep track of the wrong answers
+right_answer = 0# this will keep track of the right answers
+
+input("Press the Keybutton Enter to start the game: ") 
+print("Welcome to the Maths Quiz!")
+
+start_time = time.time() # this will start the timer
+
 for i in range(NUM_QUESTIONS): #prints the number of questions
+
     print("Question", i+1)# prints the question number
     print("Question", calculations())# prints the answer
     while True: # this will loop the questions
@@ -32,6 +43,11 @@ for i in range(NUM_QUESTIONS): #prints the number of questions
             break # this will break the loop
         else:
             print("Incorrect.Please try again to continue!.") # this will print incorrect and ask again
+            wrong_answer += 1 # this will add 1 to the wrong answer
+            right_answer += 1 # this will add 1 to the right answer
+            end_time = time.time() # this will end the timer
+            time_taken = end_time - start_time # this will calculate the time taken
+
     calculations()
 
 calculations()
