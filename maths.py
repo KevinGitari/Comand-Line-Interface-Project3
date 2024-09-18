@@ -19,10 +19,10 @@ def calculations():
 
     expressions = f"{left_side}  {operators}  {right_side}" # this is the string that will be evaluated
     answer = eval(expressions) # this will evaluate the string and return the result
-    result = eval(expressions) # this will evaluate the string and return the result
+    #result = eval(expressions) # this will evaluate the string and return the result
 
     print(expressions, "=", result)# this will print the expression and the result
-    return expressions
+    return expressions, answer # this will return the expression and the answer
 
 wrong_answer = 0# this will keep track of the wrong answers
 right_answer = 0# this will keep track of the right answers
