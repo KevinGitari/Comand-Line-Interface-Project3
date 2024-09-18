@@ -15,7 +15,7 @@ It utilizes SQLAlchemy for Object-Relational Mapping (ORM) to manage user data a
   ## GETTING STARTED
 
 ### Prerequisites
- -Python 3.10.12
+- Python 3.10.12
 - pip (Python package installer)
 
 ## Installation
