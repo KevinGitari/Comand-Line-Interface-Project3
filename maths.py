@@ -1,55 +1,66 @@
-import random # this will import the random module
-import operator # this will import the operator module
-from unittest import result# this will import the result module
-import time # this will import the time module
+import random
+import time
+from database import SessionLocal
+from contender import User, Quiz
 
 # The Python Operators I will be using
-
-OPERATORS = ["+", "-", "*", "//" ,"/",]
+OPERATORS = ["+", "-", "*", "//", "/"]
 MAX_OPERAND = 81
 MIN_OPERAND = 9
-NUM_QUESTIONS = 55
+NUM_QUESTIONS = 5
 
-# writing a function to operate the calculations
-
+# Function to operate the calculations
 def calculations():
-    right_side = random.randint(MIN_OPERAND, MAX_OPERAND) # this will generate a random number between 9 and 81
+    right_side = random.randint(MIN_OPERAND, MAX_OPERAND)
     left_side = random.randint(MIN_OPERAND, MAX_OPERAND)
-    operators = random.choice(OPERATORS)
+    operator = random.choice(OPERATORS)
+    expressions = f"{left_side} {operator} {right_side}"
+    answer = eval(expressions)
+    return expressions, answer
 
-    expressions = f"{left_side}  {operators}  {right_side}" # this is the string that will be evaluated
-    answer = eval(expressions) # this will evaluate the string and return the result
-    #result = eval(expressions) # this will evaluate the string and return the result
+def start_quiz():
+    db = SessionLocal()
 
-    print(expressions, "=", result)# this will print the expression and the result
-    return expressions, answer # this will return the expression and the answer
+    name = input("Enter your name: ")
+    user = User(name=name)
+    db.add(user)
+    db.commit()
+    db.refresh(user)
 
-wrong_answer = 0# this will keep track of the wrong answers
-right_answer = 0# this will keep track of the right answers
+    wrong_answer = 0
+    right_answer = 0
 
-input("Press the Keybutton Enter to start the game: ") 
-print("Welcome to the Maths Quiz!")
+    print("Welcome to the Maths Quiz!")
+    start_time = time.time()
 
-start_time = time.time() # this will start the timer
+    for i in range(NUM_QUESTIONS):
+        print("Question", i + 1)
+        question, result = calculations()
+        print(question)
 
-for i in range(NUM_QUESTIONS): #prints the number of questions
+        while True:
+            answer = input("Enter your answer: ")
+            try:
+                user_answer = float(answer)
+                if round(user_answer, 2) == round(result, 2):
+                    print("Correct!")
+                    right_answer += 1
+                    break
+                else:
+                    print("Incorrect. Please try again.")
+                    wrong_answer += 1
+            except ValueError:
+                print("Please enter a valid number.")
 
-    print("Question", i+1)# prints the question number
-    print("Question", calculations())# prints the answer
-    while True: # this will loop the questions
-        answer = input("Enter your answer: ") # this will ask for the answer
-        if answer == str(result): # this will check if the answer is correct
-            print("Correct!") # this will print correct
-            break # this will break the loop
-        else:
-            print("Incorrect.Please try again to continue!.") # this will print incorrect and ask again
-            wrong_answer += 1 # this will add 1 to the wrong answer
-            right_answer += 1 # this will add 1 to the right answer
-            end_time = time.time() # this will end the timer
-            time_taken = end_time - start_time # this will calculate the time taken
+    end_time = time.time()
+    time_taken = end_time - start_time
 
-    calculations()
+    # Save quiz result
+    quiz = Quiz(score=right_answer, user_id=user.id)
+    db.add(quiz)
+    db.commit()
 
-calculations()
-    
+    print(f"\nGame Over! Your score: {right_answer} correct, {wrong_answer} incorrect.")
+    print(f"Time taken: {time_taken:.2f} seconds.")
 
+    db.close()
