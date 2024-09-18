@@ -56,7 +56,7 @@ The application uses SQLite for storing contendors data and quiz scores. The dat
 - **`database.py`**: Handles database connections and table_creation.
 
 ### License
-This project is licensed under the MIT License. See the LICENSE file for detail
+This project is licensed under the MIT License. See the LICENSE file for detail.
 
 
 
