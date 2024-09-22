@@ -21,7 +21,7 @@ def calculations():
 
 def start_quiz(): 
     
-    db = SessionLocal() #creates a new database session
+    db = SessionLocal() #creates a new database the session
 
     # Get the contendors name and save to database
 
